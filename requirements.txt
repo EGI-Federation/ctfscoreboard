@@ -11,7 +11,7 @@ cachelib
 aniso8601
 argparse
 itsdangerous
-pbkdf2
+argon2-cffi
 pylibmc
 python-dateutil
 pytz
