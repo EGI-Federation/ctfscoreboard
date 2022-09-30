@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     uwsgi \
     uwsgi-plugin-python3 \
+    libmemcached-dev \
+    libz-dev \
   && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt
