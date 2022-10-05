@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y \
     nginx \
@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     uwsgi \
     uwsgi-plugin-python3 \
+    libmemcached-dev \
+    libz-dev \
+    libffi-dev \
   && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt

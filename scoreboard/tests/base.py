@@ -21,7 +21,7 @@ import json
 import logging
 import os
 import os.path
-import pbkdf2
+from argon2 import PasswordHasher
 import time
 import unittest
 
@@ -73,7 +73,7 @@ class BaseTestCase(flask_testing.TestCase):
             self.app._SAVED_CONFIG = copy.deepcopy(app.config)
         models.db.init_app(app)
         models.db.create_all()
-        cache.global_cache = cache.cache.NullCache()  # Reset cache
+        cache.global_cache = cache.NullCache()  # Reset cache
 
     def tearDown(self):
         models.db.session.remove()
@@ -107,8 +107,8 @@ class RestTestCase(BaseTestCase):
     def setUp(self):
         super(RestTestCase, self).setUp()
         # Monkey patch pbkdf2 for speed
-        self._orig_pbkdf2 = pbkdf2.crypt
-        pbkdf2.crypt = self._pbkdf2_dummy
+        self._orig_argon2 = PasswordHasher().hash
+        PasswordHasher().hash = self._argon2_dummy
         # Setup some special clients
         self.admin_client = AdminClient(
                 self.app, self.app.response_class)
@@ -117,7 +117,7 @@ class RestTestCase(BaseTestCase):
 
     def tearDown(self):
         super(RestTestCase, self).tearDown()
-        pbkdf2.crypt = self._orig_pbkdf2
+        PasswordHasher().hash = self._orig_argon2
 
     def postJSON(self, path, data, client=None):
         client = client or self.client
@@ -139,7 +139,7 @@ class RestTestCase(BaseTestCase):
         self.client = old_client
 
     @staticmethod
-    def _pbkdf2_dummy(value, *unused_args):
+    def _argon2_dummy(value, *unused_args):
         return value
 
 
