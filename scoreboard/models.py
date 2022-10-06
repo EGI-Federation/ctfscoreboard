@@ -374,7 +374,7 @@ class Challenge(db.Model):
     description = db.Column(db.Text, nullable=False)
     points = db.Column(db.Integer, nullable=False)
     min_points = db.Column(db.Integer, nullable=True)
-    validator = db.Column(db.String(24), nullable=False,
+    validator = db.Column(db.String(120), nullable=False,
                           default='static_argon2')
     answer_hash = db.Column(db.String(48))  # Protect answers
     unlocked = db.Column(db.Boolean, default=False)
