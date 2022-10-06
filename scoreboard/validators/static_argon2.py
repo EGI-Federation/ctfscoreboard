@@ -27,7 +27,7 @@ class StaticArgon2Validator(base.BaseValidator):
         if not self.challenge.answer_hash:
             return False
         return utils.compare_digest(
-                argon2.PasswordHasher().hash(answer, self.challenge.answer_hash),
+                argon2.PasswordHasher().hash(answer),
                 self.challenge.answer_hash)
 
     def change_answer(self, answer):
