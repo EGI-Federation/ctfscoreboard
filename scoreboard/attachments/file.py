@@ -58,7 +58,7 @@ def send(attachment):
     return flask.send_from_directory(
         attachment_dir(), attachment.aid,
         mimetype=attachment.content_type,
-        attachment_filename=attachment.filename,
+        download_name=attachment.filename,
         as_attachment=True)
 
 
